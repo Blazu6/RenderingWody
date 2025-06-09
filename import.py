@@ -1,24 +1,15 @@
 import os
 import math
-import random
-
 import pygame
-from pygame.locals import (
-    DOUBLEBUF, OPENGL, QUIT, KEYDOWN, K_ESCAPE,
-    K_LEFT, K_RIGHT, K_UP, K_DOWN,
-    MOUSEBUTTONDOWN, MOUSEBUTTONUP
-)
-
+from pygame.locals import *
 from OpenGL.GL import *
-from OpenGL.GLU import (
-    gluPerspective, gluUnProject
-)
+from OpenGL.GLU import *
 from OpenGL.GL import shaders
 
 # --------------------------------------------------------------------------------
 #   Wave & water with animated cubemap reflection, refraction + radial ripples
 # --------------------------------------------------------------------------------
-random.seed(0)
+
 
 # Vertex shader for water effects (bez zmian)
 VERTEX_SHADER = """
@@ -219,12 +210,12 @@ def draw_water_reflective(size=100.0, time_val=0.0, grid_range=10, spacing=1.0):
 # --------------------------------------------------------------------------------
 CUBE_MAP_DIR = "skybox"
 CUBE_MAP_FACES = [
-    ("bottom2.jpg",  GL_TEXTURE_CUBE_MAP_POSITIVE_X),
-    ("bottom2.jpg",  GL_TEXTURE_CUBE_MAP_NEGATIVE_X),
+    ("woda2.png",  GL_TEXTURE_CUBE_MAP_POSITIVE_X),
+    ("woda2.png",  GL_TEXTURE_CUBE_MAP_NEGATIVE_X),
     ("top2.jpg",     GL_TEXTURE_CUBE_MAP_POSITIVE_Y),
-    ("bottom.jpg",   GL_TEXTURE_CUBE_MAP_NEGATIVE_Y),
-    ("bottom2.jpg",  GL_TEXTURE_CUBE_MAP_POSITIVE_Z),
-    ("bottom2.jpg",  GL_TEXTURE_CUBE_MAP_NEGATIVE_Z),
+    ("bottom2.jpg",   GL_TEXTURE_CUBE_MAP_NEGATIVE_Y),
+    ("woda2.png",  GL_TEXTURE_CUBE_MAP_POSITIVE_Z),
+    ("woda2.png",  GL_TEXTURE_CUBE_MAP_NEGATIVE_Z),
 ]
 
 def load_cubemap():
@@ -327,7 +318,7 @@ def main():
     pygame.init()
     screen_width, screen_height = 1280, 720
     pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
-    pygame.mouse.set_visible(True)  # kursor widoczny
+    pygame.mouse.set_visible(True)  
     clock = pygame.time.Clock()
 
     glEnable(GL_DEPTH_TEST)
@@ -340,7 +331,7 @@ def main():
 
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    gluPerspective(45, screen_width / screen_height, 0.1, 3000.0)
+    gluPerspective(60, screen_width / screen_height, 0.1, 3000.0)
 
     yaw = pitch = 0.0
     time_val = 0.0
@@ -428,7 +419,7 @@ def main():
         glDisable(GL_LIGHTING)
         glPushMatrix()
         # Przesuwamy wodę w dół o 60 jednostek (płaszczyzna y = -60)
-        glTranslatef(0, -60, 0)
+        glTranslatef(0, -35, 0)
         draw_water_reflective(size=80.0, time_val=time_val, grid_range=10, spacing=1.0)
         glPopMatrix()
         glEnable(GL_LIGHTING)
